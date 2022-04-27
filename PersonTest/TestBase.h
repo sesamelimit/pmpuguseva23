@@ -1,9 +1,10 @@
 #pragma once
+#include "PersonTestClass.h"
 
 class Node
 {
 public:
-    int data;
+    PersonTest data;
     Node* next;
 
     Node();
