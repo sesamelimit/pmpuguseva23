@@ -6,7 +6,5 @@ class Node
 public:
     PersonTest data;
     Node* next;
-
     Node();
-
 };
