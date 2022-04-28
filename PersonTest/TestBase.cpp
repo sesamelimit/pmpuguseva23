@@ -1,6 +1,3 @@
 #include "TestBase.h"
 
-Node::Node()
-{
-
-};
+Node::Node(){};
