@@ -1,10 +1,8 @@
-#include <vector>
-#include <string>
+#import "PersonTest.h"
+#include "TestNode.h"
+
 #include <iostream>
 #include <fstream>
-#include <limits>
-#include "PersonTestClass.h"
-using namespace std;
 
 int isBukvSymb(char symb)
 {
@@ -20,14 +18,7 @@ int isBukvString(string str)
     return 0;
 }
 
-PersonTest::PersonTest(){
-    person_name=EOF;
-    test_id=0;
-    results = vector<double>(0,0);
-};
-
-void PersonTest::read_c()
-{
+void PersonTest::read_c() {
     cout << "Input data: name, test id, results \n";
     cin >> person_name;
     while (isBukvString(person_name)) {
@@ -35,8 +26,7 @@ void PersonTest::read_c()
         std::cin.clear();
         std::cin.ignore(std::cin.rdbuf()->in_avail());
         cin >> person_name;
-    }
-
+}
     cin >> test_id;
     while ((test_id < 0 || test_id>50) || test_id != (int)test_id) {
         cout << "Wrong test id format, input correct data \n";
@@ -52,28 +42,6 @@ void PersonTest::read_c()
     }
 }
 
-void PersonTest::read_f(string filename)
-{
-    double input = 0;
-    ifstream fin;
-    fin.open(filename);
-
-    if (fin.fail())
-    {
-        cerr << "Error opening file\n";
-        exit(1);
-    }
-
-    fin >> *this;
-    fin.close();
-}
-
-void PersonTest::write()
-{
-    std::cout << person_name << "\n" << test_id << "\n";
-    for (int i = 0; i < quan[test_id]; i++)
-        std::cout << results[i] << "\n";
-}
 int PersonTest::compare(PersonTest pt2)
 {
     if (test_id < pt2.test_id)
@@ -132,19 +100,15 @@ std::istream& operator>> (std::istream& in, PersonTest& pt)
     return in;
 }
 
-std::ifstream& operator>>(std::ifstream& in, PersonTest& pt){
+
+std::ifstream& operator>> (std::ifstream& in, PersonTest& pt) {
     in >> pt.person_name;
     in >> pt.test_id;
     double input;
-    for(int i=0; i<quan[pt.test_id]; i++){
+    for (int i = 0; i < quan[pt.test_id]; i++) {
         in >> input;
         pt.results.push_back(input);
     }
     return in;
 }
 
-PersonTest::PersonTest(std::string n, int i, std::vector<double> result) {
-person_name=n;
-test_id=i;
-results=result;
-}

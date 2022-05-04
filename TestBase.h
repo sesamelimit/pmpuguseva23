@@ -1,20 +1,20 @@
-#pragma once
-#include "PersonTestClass.h"
+#include "PersonTest.h"
+using namespace std;
 
 class Node
 {
 private:
-    PersonTest data;
     Node* next;
+    PersonTest data;
 public:
     Node();
     ~Node();
-    Node(const Node &object);
-    int add(PersonTest object);
-    Node* sort(Node* head, Node* tmp, int left, int right);
-    int addToSorted(Node*x);
-    friend std::ostream& operator<< (std::ostream& out, const Node& pt);
-    friend std::ifstream& operator>> (std::ifstream& in, Node& pt);
-    int write(string name2, int test_id2, vector<double> inf, vector<double> sup);
-    int remove(string name2, int test_id2, vector<double> inf, vector<double> sup);
+    Node(const Node &point);
+    friend std::ostream& operator<< (std::ostream& out, const Node& point);
+    friend std::ifstream& operator>> (std::ifstream& in, Node& point);
+    void add(Node point); //возможно поменять аргумент на указатель на узел
+    void sort(Node head);
+    void addToSorted(Node point);
+    void write();
+    void remove();
 };

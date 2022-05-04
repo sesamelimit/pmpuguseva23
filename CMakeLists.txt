@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
-project(second_semester)
+project(PersonTest_version2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(second_semester main.cpp PersonTestClass.h PersonTestClass.cpp TestBase.h TestBase.cpp)
+add_executable(PersonTest_version2 main.cpp PersonTest.h PersonTest.cpp TestNode.h TestNode.cpp)
