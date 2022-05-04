@@ -3,10 +3,15 @@
 #include "TestNode.h"
 
 int main() {
-    class Node* head = NULL;
+    Node x;
     ifstream(fin);
-    fin.open("C:\\Users\\ultra\\CLionProjects\\second_semester\\data.txt");
+    fin.open("C:\\Users\\a9599\\CLionProjects\\second_semester\\data.txt");
     fin >> x;
     fin.close();
+    Node y;
+    fin.open("C:\\Users\\a9599\\CLionProjects\\second_semester\\data2.txt");
+    fin >> y;
+    x.add(y);
+    cout << x;
     return 0;
 }

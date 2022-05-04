@@ -1,6 +1,4 @@
 #import "PersonTest.h"
-#include "TestNode.h"
-
 #include <iostream>
 #include <fstream>
 
@@ -26,7 +24,7 @@ void PersonTest::read_c() {
         std::cin.clear();
         std::cin.ignore(std::cin.rdbuf()->in_avail());
         cin >> person_name;
-}
+    }
     cin >> test_id;
     while ((test_id < 0 || test_id>50) || test_id != (int)test_id) {
         cout << "Wrong test id format, input correct data \n";
@@ -111,4 +109,3 @@ std::ifstream& operator>> (std::ifstream& in, PersonTest& pt) {
     }
     return in;
 }
-
