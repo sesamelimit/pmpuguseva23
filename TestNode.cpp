@@ -2,31 +2,32 @@
 #include <iostream>
 #include <fstream>
 
-Node::Node() {
-    next=nullptr;
+LinkedList::Node::Node() {
+next=nullptr;
 }
 
-Node::~Node() {
- /*   Node* current = new Node();
-    current = this->next;
-    while(current!=nullptr)
-    {
-        Node* n=current->next;
-        delete current;
-        current=n;
-    }*/
+LinkedList::LinkedList() {
+first=new LinkedList::Node();
 }
 
-Node::Node(const Node &point) {
-    this->data=point.data;
-    this->next=point.next;
-};
+LinkedList::~LinkedList() {
+    Node* current = first;
+    while( current != nullptr ) {
+        Node* next = current->next;
+        delete[] current;
+        current = next;
+    }
+    first = nullptr;
+}
 
-std::ostream& operator<< (std::ostream& out, const Node& pt)
-{
-    Node* current=new Node();
-    Node copy=pt;
-    current = &copy;
+LinkedList::LinkedList(const LinkedList &point) {
+this->first->next=point.first->next;
+this->first->data=point.first->data;
+}
+
+std::ostream &operator<<(ostream &out, const LinkedList &pt) {
+    LinkedList::Node *current=new LinkedList::Node();
+    current=pt.first;
     while(current!=nullptr)
     {
         out << current->data << endl;
@@ -35,32 +36,51 @@ std::ostream& operator<< (std::ostream& out, const Node& pt)
     return out;
 }
 
-std::ifstream &operator>>(ifstream &in, Node &pt) {
-    Node* current;
-    current = &pt;
-    in >> pt.data;
-    while(!(in.eof()))
-    {
-        Node *newnode;
-        newnode = new Node();
+std::ifstream &operator>>(ifstream &in, LinkedList &pt) {
+    LinkedList::Node *current;
+    current = pt.first;
+    in >> current->data;
+    while (!(in.eof())) {
+        LinkedList::Node *newnode;
+        newnode = new LinkedList::Node();
         in >> newnode->data;
-        current->next=newnode;
-        current=current->next;
+        current->next = newnode;
+        current = current->next;
     }
     return in;
-    //Мораль инициализировать перемеменные
 }
 
-void Node::add(Node point) {
-Node* current=new Node();
-current=this->next;
-while(current->next!=nullptr)
-    current=current->next;
-Node* ptr = new Node();
-ptr=&point;
-current->next=ptr;
-}
-
-void Node::sort() {
-
+void LinkedList::add(Node point)
+{
+    LinkedList::Node *current=new LinkedList::Node();
+    current=this->first;
+    while(current!=nullptr)
+            current=current->next;
+    LinkedList::Node *x = new LinkedList::Node();
+    x->data=point.data;
+    x->next=current->next;
+    current->next=x;
 };
+
+void LinkedList::addToSorted(LinkedList::Node point) {
+    LinkedList::Node *current=new LinkedList::Node();
+    current=this->first;
+    while(current!=nullptr)
+        if(current->data.compare(point.data)==1)
+    {
+        cout << current->data << ">" << point.data << endl;
+        current=current->next;
+    };
+    LinkedList::Node *x = new LinkedList::Node();
+    x->data=point.data;
+    x->next=current->next;
+    current->next=x;
+}
+
+void LinkedList::sort() {
+
+}
+
+
+
+

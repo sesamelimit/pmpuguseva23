@@ -1,14 +1,18 @@
 #include "PersonTest.h"
-class Node{
+class LinkedList{
 private:
-    Node* next;
-    PersonTest data;
+    struct Node { //структура узла открытая внутри класса лл
+        Node *next;
+        PersonTest data;
+        Node();
+    };
+    Node *first;
 public:
-    Node();
-    ~Node();
-    Node(const Node &point);
-    friend std::ostream& operator<< (std::ostream& out, const Node& pt);
-    friend std::ifstream& operator>> (std::ifstream& in, Node& pt);
+    LinkedList();
+    LinkedList(const LinkedList &point);
+    ~LinkedList();
+    friend std::ostream& operator<< (std::ostream& out, const LinkedList& pt);
+    friend std::ifstream& operator>> (std::ifstream& in, LinkedList& pt);
     void add(Node point);
     void sort();
     void addToSorted(Node point);

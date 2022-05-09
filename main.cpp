@@ -3,11 +3,12 @@
 #include "TestNode.h"
 
 int main() {
-    Node x;
+    LinkedList *A;
+    A = new LinkedList();
     ifstream(fin);
     fin.open("C:\\Users\\a9599\\CLionProjects\\PersonTest\\data.txt");
-    fin >> x;
+    fin >> *A;
     fin.close();
-    cout << x;
+    cout << *A;
     return 0;
 }
