@@ -5,7 +5,9 @@ private:
         Node *next;
         PersonTest data;
         Node();
+        ~Node();
     };
+    int length;
     Node *first;
 public:
     LinkedList();
@@ -13,9 +15,11 @@ public:
     ~LinkedList();
     friend std::ostream& operator<< (std::ostream& out, const LinkedList& pt);
     friend std::ifstream& operator>> (std::ifstream& in, LinkedList& pt);
-    void add(Node point);
-    void sort();
-    void addToSorted(Node point);
-    void write();
-    void remove();
+    void add(PersonTest point);
+    void addToSorted(PersonTest point);
+    LinkedList* mergesort(LinkedList *list);
+    void mergesplit(LinkedList *list, LinkedList *a, LinkedList *b );
+    LinkedList* merge(LinkedList *a,LinkedList *b);
+    void write(string name2, int test_id2, vector<double> inf, vector<double> sup);
+    void remove(string name2, int test_id2, vector<double> inf, vector<double> sup);
 };

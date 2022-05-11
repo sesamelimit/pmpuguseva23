@@ -40,7 +40,7 @@ void PersonTest::read_c() {
     }
 }
 
-int PersonTest::compare(PersonTest pt2)
+int PersonTest::compare(PersonTest pt2) // this < argument = -1 ; this > argument = 1
 {
     if (test_id < pt2.test_id)
         return -1;
