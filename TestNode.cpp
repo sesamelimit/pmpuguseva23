@@ -118,9 +118,9 @@ while(current!=nullptr) {
 
 void LinkedList::remove(string name2, int test_id2, vector<double> inf, vector<double> sup) {
  LinkedList::Node *current = first;
- if (current->data.check(name2,test_id2,inf,sup)) {
+ while (current!=nullptr && current->data.check(name2,test_id2,inf,sup)) {
      first = current->next;
-     delete current;
+     current=first;
      length--;
  }
  current=first;
@@ -134,6 +134,7 @@ void LinkedList::remove(string name2, int test_id2, vector<double> inf, vector<d
      }
      current=current->next;
  }
+
 }
 
 LinkedList* LinkedList::mergesort(LinkedList *list) {

@@ -26,7 +26,7 @@ int main() {
                     "    - find <conditions> - print elements satisfying the conditions\n"
                     "    - delete <conditions> - remove elements satisfying the conditions\n"
                     "    - exit - stop and exit\n";
-        if(command=="clear") { //TODO
+        if(command=="clear") {
             vector<double> inf(5, -1);
             vector<double> sup(5, 1000);
             A->remove("*", -1, inf, sup);
@@ -39,8 +39,8 @@ int main() {
             fin >> *A;
             fin.close();
         }
-        if(command=="save"){ //TODO
-            char *filename = nullptr;
+        if(command=="save"){
+            char *filename = new char();
             cin >> filename;
             ofstream(fout);
             fout.open(filename);
@@ -81,7 +81,7 @@ int main() {
             A->write(name,id,inf,sup);
 
         }
-        if(command=="delete") //TODO
+        if(command=="delete")
         {
             string name; int id,inf_size,sup_size;
             cout << "input name, id, size of vectors and vectors"<<endl;
@@ -101,6 +101,7 @@ int main() {
 
             cout << "removing:" << endl;
             A->remove(name,id,inf,sup);
+            cout << *A;
         }
 
     }
