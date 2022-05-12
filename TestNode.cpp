@@ -11,8 +11,8 @@ LinkedList::Node::~Node() {
 }
 
 LinkedList::LinkedList() {
-first=new LinkedList::Node();
-length=1;
+first = new Node();
+length=0;
 }
 
 LinkedList::~LinkedList() {
@@ -22,7 +22,7 @@ LinkedList::~LinkedList() {
         delete current;
         current = next;
     }
-    first = nullptr;
+    length=0;
 }
 
 LinkedList::LinkedList(const LinkedList &point) {
@@ -44,8 +44,11 @@ std::ostream &operator<<(ostream &out, const LinkedList &pt) {
 
 std::ifstream &operator>>(ifstream &in, LinkedList &pt) {
     LinkedList::Node *current;
+    if (pt.length==0)
+        pt.first = new LinkedList::Node();
     current = pt.first;
     in >> current->data;
+    ++pt.length;
     while (!(in.eof())) {
         LinkedList::Node *newnode;
         newnode = new LinkedList::Node();
@@ -59,12 +62,18 @@ std::ifstream &operator>>(ifstream &in, LinkedList &pt) {
 
 void LinkedList::add(PersonTest point)
 {
+    LinkedList::Node *x = new LinkedList::Node();
+    x->data=point;
+    if(this->length==0){
+                first = x;
+                ++length;
+                return;
+            }
     LinkedList::Node *current=new LinkedList::Node();
     current=this->first;
     while(current->next!=nullptr)
             current=current->next;
-    LinkedList::Node *x = new LinkedList::Node();
-    x->data=point;
+
     x->next=current->next;
     current->next=x;
     ++length;
@@ -74,7 +83,16 @@ void LinkedList::addToSorted(PersonTest point) {
     LinkedList::Node *current = new LinkedList::Node();
     LinkedList::Node *x = new LinkedList::Node();
     x->data=point;
+
+    //если кто-то в белой горячке подумает что пустой список сортированный...
+    if(this->length==0) {
+        first = x;
+        ++length;
+        return;
+    }
+
     current = this->first;
+
     if(current->data.compare(point)==1) {
         x->next = current;
         this->first = x;
@@ -121,13 +139,13 @@ void LinkedList::remove(string name2, int test_id2, vector<double> inf, vector<d
 LinkedList* LinkedList::mergesort(LinkedList *list) {
     if(list==nullptr || list->first==nullptr || list->first->next==nullptr)
         return list;
-    //pointers to linked lists of the halves//
+
     LinkedList* a = new LinkedList();
     LinkedList* b = new LinkedList();
 
     mergesplit(list, a, b);
     a=mergesort(a);
-    b=mergesort(b); //проблема в том что он не обновляет переменные
+    b=mergesort(b);
     a=merge(a,b);
 }
 
@@ -135,6 +153,7 @@ void LinkedList::mergesplit(LinkedList *list, LinkedList *a, LinkedList *b) {
 int m=list->length/2;
 auto* current=list->first;
 a->first->data=current->data;
+++a->length;
 current=current->next;
 
 for(int i=1;i<m;++i) {
@@ -143,6 +162,7 @@ for(int i=1;i<m;++i) {
     current=current->next;
 }
 b->first->data=current->data;
+++b->length;
 current=current->next;
 for(int i=m+1;i<list->length;++i) {
     if (current != nullptr)
