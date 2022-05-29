@@ -7,7 +7,7 @@
 using namespace std;
 
 int main() {
-
+/*
     bool is_exit=false;
     LinkedList *A = new LinkedList();
     while(!(is_exit))
@@ -50,13 +50,15 @@ int main() {
         if(command=="add")
         {
             PersonTest x;
+            cout << "input data:" << endl;
             cin >> x;
             A->add(x);
             cout << "added" << endl;
         }
         if(command=="sort")
         {
-            A=A->mergesort(A);
+            A->mergesort();
+            cout << "sorted ll" << endl;
             cout << *A;
         }
         if(command=="find")
@@ -103,9 +105,31 @@ int main() {
             A->remove(name,id,inf,sup);
             cout << *A;
         }
+        if(command=="testinfo")
+        {
+            int test_id;
+            cout << "Input test id" << endl;
+            cin >> test_id;
+            vector<double> inf(5, -1);
+            vector<double> sup(5, 1000);
+            cout << "Test number" << test_id << endl;
+            A->write("*", test_id, inf, sup);
+        }
 
     }
-
     return 0;
-
+*/
+    LinkedList A;
+    char *filename = new char();
+    cin >> filename;
+    ifstream(fin);
+    fin.open(filename);
+    fin >> A;
+    fin.close();
+    LinkedList B=A;
+    cout << A;
+    cout << B;
+    return 0;
 }
+// C:\Users\ultra\CLionProjects\PersonTest\data.txt
+//C:\Users\ultra\CLionProjects\PersonTest\data2.txt
