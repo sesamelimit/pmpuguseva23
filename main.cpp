@@ -6,8 +6,7 @@
 #include <string>
 using namespace std;
 
-int main() {
-/*
+int main() {/*
     bool is_exit=false;
     LinkedList *A = new LinkedList();
     while(!(is_exit))
@@ -117,8 +116,7 @@ int main() {
         }
 
     }
-    return 0;
-*/
+    return 0;*/
     LinkedList A;
     char *filename = new char();
     cin >> filename;
@@ -126,10 +124,8 @@ int main() {
     fin.open(filename);
     fin >> A;
     fin.close();
-    LinkedList B=A;
-    cout << A;
-    cout << B;
     return 0;
+
 }
 // C:\Users\ultra\CLionProjects\PersonTest\data.txt
 //C:\Users\ultra\CLionProjects\PersonTest\data2.txt

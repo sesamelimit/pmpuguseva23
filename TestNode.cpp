@@ -20,26 +20,22 @@ LinkedList::~LinkedList() {
         current = next;
     }
     length=0;
+
 }
 
-LinkedList::LinkedList(const LinkedList &point) { //todo
-    Node *current=point.first;
-    while (current != nullptr) {
-        Node *next = current->next;
-        delete current;
-        current = next;
-    }
+LinkedList::LinkedList(const LinkedList &point) {
+    length=point.length;
+    LinkedList::Node *current;
     first=new Node();
     first->data=point.first->data;
     Node* target=first;
-    current=point.first;
+    current=point.first->next;
     while(current!=nullptr)
     {
         target->next=new Node();
         target=target->next;
         target->data=current->data;
         last=target;
-
         current=current->next;
     }
 }
@@ -55,8 +51,9 @@ std::ostream &operator<<(ostream &out, const LinkedList &pt) {
     return out;
 }
 
-std::ifstream &operator>>(ifstream &in, LinkedList &pt) { //todo
+std::ifstream &operator>>(ifstream &in, LinkedList &pt) {
     LinkedList::Node *current=pt.first;
+
     while (current != nullptr) {
         LinkedList::Node *next = current->next;
         delete current;
