@@ -6,20 +6,22 @@
 #include <string>
 using namespace std;
 
-int main() {/*
+int main() {
     bool is_exit=false;
     LinkedList *A = new LinkedList();
     while(!(is_exit))
     {
         string command;
         cin >> command;
+        if(command=="write")
+            cout << *A;
         if (command=="exit")
             is_exit=true;
         if (command=="help")
-            cout << "help - print the commands list\n"
-                    "clear - clear list\n"
-                    "load <filename> - add list from file\n"
-                    "- save <filename> - save list as file\n"
+            cout << "    - help - print the commands list\n"
+                    "    - clear - clear list\n"
+                    "    - load <filename> - add list from file\n"
+                    "    - save <filename> - save list as file\n"
                     "    - add - add element to the list\n"
                     "    - sort - sort the list\n"
                     "    - find <conditions> - print elements satisfying the conditions\n"
@@ -29,34 +31,39 @@ int main() {/*
             vector<double> inf(5, -1);
             vector<double> sup(5, 1000);
             A->remove("*", -1, inf, sup);
+            cout << "array is cleared" << endl;
         }
+
         if(command=="load") {
-            char *filename = new char();
+            char* filename = new char[200];
             cin >> filename;
             ifstream(fin);
             fin.open(filename);
             fin >> *A;
             fin.close();
+            delete[] filename;
         }
         if(command=="save"){
-            char *filename = new char();
+            char *filename = new char[200];
             cin >> filename;
             ofstream(fout);
             fout.open(filename);
             fout << *A;
             fout.close();
+            delete[] filename;
         }
         if(command=="add")
         {
             PersonTest x;
             cout << "input data:" << endl;
             cin >> x;
+            cout << "is read" << endl;
             A->add(x);
             cout << "added" << endl;
         }
         if(command=="sort")
         {
-            A->mergesort();
+            A=A->mergesort(A);
             cout << "sorted ll" << endl;
             cout << *A;
         }
@@ -85,7 +92,7 @@ int main() {/*
         if(command=="delete")
         {
             string name; int id,inf_size,sup_size;
-            cout << "input name, id, size of vectors and vectors"<<endl;
+            cout << "input name, id, size of vectors and vectors" << endl;
             cin >> name >> id;
 
             cout << "vector 1" << endl;
@@ -102,30 +109,19 @@ int main() {/*
 
             cout << "removing:" << endl;
             A->remove(name,id,inf,sup);
-            cout << *A;
         }
         if(command=="testinfo")
         {
             int test_id;
             cout << "Input test id" << endl;
             cin >> test_id;
-            vector<double> inf(5, -1);
-            vector<double> sup(5, 1000);
-            cout << "Test number" << test_id << endl;
-            A->write("*", test_id, inf, sup);
+            A->testinfo(test_id);
         }
 
     }
-    return 0;*/
-    LinkedList A;
-    char *filename = new char();
-    cin >> filename;
-    ifstream(fin);
-    fin.open(filename);
-    fin >> A;
-    fin.close();
+    delete A;
     return 0;
-
 }
+
 // C:\Users\ultra\CLionProjects\PersonTest\data.txt
 //C:\Users\ultra\CLionProjects\PersonTest\data2.txt

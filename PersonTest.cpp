@@ -109,3 +109,8 @@ std::ifstream& operator>> (std::ifstream& in, PersonTest& pt) {
     }
     return in;
 }
+
+void PersonTest::print_scores() {
+    for(int i = 0; i < quan[test_id]; ++i)
+    std::cout << this->results[i] << endl;
+}

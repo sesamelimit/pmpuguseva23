@@ -19,5 +19,5 @@ public:
     friend std::ostream& operator<< (std::ostream& out, const PersonTest& pt);
     friend std::istream& operator>> (std::istream& in, PersonTest& pt);
     friend std::ifstream& operator>> (std::ifstream& in, PersonTest& pt);
-
+    void print_scores();
 };

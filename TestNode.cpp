@@ -7,7 +7,7 @@ next=nullptr;
 }
 
 LinkedList::LinkedList() {
-first = new Node();
+first=nullptr;
 last=first;
 length=0;
 }
@@ -19,13 +19,22 @@ LinkedList::~LinkedList() {
         delete current;
         current = next;
     }
+    first=nullptr;
+    last=nullptr;
     length=0;
-
 }
 
 LinkedList::LinkedList(const LinkedList &point) {
+    LinkedList::Node *current=first;
+    while (current != nullptr && length!=0) {
+            LinkedList::Node *next = current->next;
+            delete current;
+            current = next;
+    }
+    first=nullptr;
+    last=nullptr;
     length=point.length;
-    LinkedList::Node *current;
+
     first=new Node();
     first->data=point.first->data;
     Node* target=first;
@@ -52,27 +61,20 @@ std::ostream &operator<<(ostream &out, const LinkedList &pt) {
 }
 
 std::ifstream &operator>>(ifstream &in, LinkedList &pt) {
-    LinkedList::Node *current=pt.first;
-
+     LinkedList::Node *current=pt.first;
     while (current != nullptr) {
         LinkedList::Node *next = current->next;
         delete current;
         current = next;
     }
+    pt.first=nullptr;
     pt.length = 0;
 
-    pt.first = new LinkedList::Node();
-    in >> pt.first->data;
-    ++pt.length;
-    current=pt.first;
     while (!(in.eof())) {
-        auto *newnode = new LinkedList::Node();
-        ++pt.length;
-        in >> newnode->data;
-        current->next = newnode;
-        current = current->next;
+        PersonTest point;
+        in >> point;
+        pt.add(point);
     }
-    pt.last=current;
     return in;
 }
 
@@ -82,11 +84,6 @@ void LinkedList::add(PersonTest point)
         first = new Node();
         first->data=point;
         last=first;
-        return;
-    }
-
-    if(this->length==0){
-        first->data=point;
         ++length;
         return;
     }
@@ -102,16 +99,11 @@ void LinkedList::addToSorted(PersonTest point) {
         first = new Node();
         first->data=point;
         last=first;
+        ++length;
         return;
     }
 
-    if(this->length==0) {
-        first->data=point;
-        ++length;
-        last=first;
-        return;
-    }
-    //Если элемент минус первый получается
+    //Если элемент минус первый
     auto* current = this->first;
     if(current->data.compare(point)==1) {
         auto* x = new Node();
@@ -142,53 +134,55 @@ while(current!=nullptr) {
 }
 
 void LinkedList::remove(string name2, int test_id2, vector<double> inf, vector<double> sup) {//todo
- LinkedList::Node *current = this->first;
- while(current!=nullptr) {
-     if (current->next != nullptr && current->next->data.check(name2, test_id2, inf, sup)) {
-         auto *n = current->next->next;
-         delete current->next;
-         length--;
-         current->next = n;
-     }
+    auto* current=first;
+    while(current!=nullptr && current->next!=nullptr){
+        if(current->next->data.check(name2,test_id2,inf,sup))
+        {
+            auto* temp=current->next->next;
+            delete current->next;
+            current->next=temp;
+            --length;
+        }
+        if(current->next->next==nullptr && current->next->data.check(name2,test_id2,inf,sup))
+        {
+            delete current->next;
+            last=current;
+            --length;
+            current->next=nullptr;
+        }
+        current=current->next;
+    }
 
-     //проверка конца
-     if(current->next->next == nullptr && current->next->data.check(name2,test_id2,inf,sup))
-     {
-         delete current->next;
-         last=current;
-         --length;
-     }
-     current=current->next;
- }
- if(this->first->data.check(name2, test_id2, inf, sup)) {
-     auto *temp = this->first->next;
-     delete this->first;
-     this->first=temp;
- }
-
+    if(first->data.check(name2,test_id2,inf,sup))
+    {
+        auto* temp=first->next;
+        delete first;
+        first=temp;
+        --length;
+    }
+    if(length==0 || length==1)
+        last=first;
 }
 
-void LinkedList::mergesort(){
-    mergesort_a(this);
-
-};
-
-void LinkedList::mergesort_a(LinkedList *list) {
+LinkedList* LinkedList::mergesort(LinkedList *list) {
     if(list==nullptr || list->first==nullptr || list->first->next==nullptr)
-        return;
+        return list;
 
     LinkedList* a = new LinkedList();
     LinkedList* b = new LinkedList();
 
     mergesplit(list, a, b);
-    mergesort_a(a);
-    mergesort_a(b);
+    mergesort(a);
+    mergesort(b);
     list=merge(a,b);
+    return list;
 }
 
 void LinkedList::mergesplit(LinkedList *list, LinkedList *a, LinkedList *b) {
 int m=list->length/2;
 auto* current=list->first;
+
+a->first = new Node();
 a->first->data=current->data;
 ++a->length;
 a->last=a->first;
@@ -200,7 +194,7 @@ for(int i=1;i<m;++i) {
     }
     current=current->next;
 }
-
+b->first=new Node();
 b->first->data=current->data;
 ++b->length;
 b->last=b->first;
@@ -221,3 +215,15 @@ LinkedList* LinkedList::merge(LinkedList *a, LinkedList *b) {
     return a;
 }
 
+void LinkedList::testinfo(int test_id){
+    auto* current=this->first;
+    vector<double> inf(5, -1);
+    vector<double> sup(5, 1000);
+    while(current!=nullptr){
+        if(current->data.check("*", test_id, inf, sup)) {
+            current->data.print_scores();
+            cout << endl;
+        }
+        current=current->next;
+    }
+};

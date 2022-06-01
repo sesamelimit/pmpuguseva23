@@ -17,10 +17,10 @@ public:
     friend std::ifstream& operator>> (std::ifstream& in, LinkedList& pt);
     void add(PersonTest point);
     void addToSorted(PersonTest point);
-    void mergesort();
-    void mergesort_a(LinkedList *list);
+    LinkedList* mergesort(LinkedList *list);
     void mergesplit(LinkedList *list, LinkedList *a, LinkedList *b );
     LinkedList* merge(LinkedList *a,LinkedList *b);
     void write(string name2, int test_id2, vector<double> inf, vector<double> sup);
     void remove(string name2, int test_id2, vector<double> inf, vector<double> sup);
+    void testinfo(int test_id);
 };
