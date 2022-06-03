@@ -88,7 +88,7 @@ std::ostream& operator<< (std::ostream& out, const PersonTest& pt)
 
 std::istream& operator>> (std::istream& in, PersonTest& pt)
 {
-    in >> pt.person_name;
+    in >> pt.person_name; //todo
     in >> pt.test_id;
     double input;
     for (int i = 0; i < quan[pt.test_id]; i++) {

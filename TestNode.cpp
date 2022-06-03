@@ -24,6 +24,18 @@ LinkedList::~LinkedList() {
     length=0;
 }
 
+void LinkedList::destroy(){
+    Node* current = first;
+    while( current != nullptr ) {
+        Node* next = current->next;
+        delete current;
+        current = next;
+    }
+    first=nullptr;
+    last=nullptr;
+    length=0;
+}
+
 LinkedList::LinkedList(const LinkedList &point) {
     LinkedList::Node *current=first;
     while (current != nullptr && length!=0) {
@@ -152,6 +164,24 @@ void LinkedList::remove(string name2, int test_id2, vector<double> inf, vector<d
         }
         current=current->next;
     }
+    current=first;
+    while(current!=nullptr && current->next!=nullptr){
+        if(current->next->data.check(name2,test_id2,inf,sup))
+        {
+            auto* temp=current->next->next;
+            delete current->next;
+            current->next=temp;
+            --length;
+        }
+        if(current->next->next==nullptr && current->next->data.check(name2,test_id2,inf,sup))
+        {
+            delete current->next;
+            last=current;
+            --length;
+            current->next=nullptr;
+        }
+        current=current->next;
+    }
 
     if(first->data.check(name2,test_id2,inf,sup))
     {
@@ -164,17 +194,19 @@ void LinkedList::remove(string name2, int test_id2, vector<double> inf, vector<d
         last=first;
 }
 
+
 LinkedList* LinkedList::mergesort(LinkedList *list) {
     if(list==nullptr || list->first==nullptr || list->first->next==nullptr)
         return list;
 
-    LinkedList* a = new LinkedList();
-    LinkedList* b = new LinkedList();
+    auto* a = new LinkedList();
+    auto* b = new LinkedList();
 
     mergesplit(list, a, b);
     mergesort(a);
     mergesort(b);
-    list=merge(a,b);
+    merge(list,a,b);
+    a->destroy(); b->destroy();
     return list;
 }
 
@@ -206,11 +238,46 @@ for(int i=m+1;i<list->length;++i) {
 }
 }
 
-LinkedList* LinkedList::merge(LinkedList *a, LinkedList *b) {
-    auto* current=b->first;
-    while(current!=nullptr) {
-        a->addToSorted(current->data);
-        current = current->next;
+LinkedList* LinkedList::merge(LinkedList *list, LinkedList *a, LinkedList *b) {
+    list->destroy();
+    list->first=new Node();
+    list->last=list->first;
+    list->length=a->length;
+    list->first->data=a->first->data;
+    Node* target=list->first;
+    auto* current=a->first->next;
+    while(current!=nullptr)
+    {
+        target->next=new Node();
+        target=target->next;
+        target->data=current->data;
+        list->last=target;
+        current=current->next;
+    }
+
+    auto* current_b=b->first;
+    while(list->first!=nullptr && current_b!=nullptr && list->first->data.compare(current_b->data)==1)
+    {
+        auto* x = new Node();
+        x->data=current_b->data;
+        x->next=list->first;
+        list->first=x;
+        ++list->length;
+        current_b=current_b->next;
+    }
+    auto* current_a=list->first;
+    while(current_b!=nullptr){
+        while(current_a->next!=nullptr && current_a->next->data.compare(current_b->data)==-1)
+            current_a=current_a->next;
+        auto* x = new Node();
+        x->data=current_b->data;
+        x->next=current_a->next;
+        current_a->next=x;
+        ++list->length;
+        if (x->next==nullptr)
+            list->last=x;
+
+        current_b=current_b->next;
     }
     return a;
 }

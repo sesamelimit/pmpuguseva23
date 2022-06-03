@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     bool is_exit=false;
-    LinkedList *A = new LinkedList();
+    auto  *A = new LinkedList();
     while(!(is_exit))
     {
         string command;
@@ -28,26 +28,34 @@ int main() {
                     "    - delete <conditions> - remove elements satisfying the conditions\n"
                     "    - exit - stop and exit\n";
         if(command=="clear") {
-            vector<double> inf(5, -1);
-            vector<double> sup(5, 1000);
-            A->remove("*", -1, inf, sup);
+            A->destroy();
             cout << "array is cleared" << endl;
         }
 
         if(command=="load") {
-            char* filename = new char[200];
+            char* filename = new char[255];
             cin >> filename;
             ifstream(fin);
             fin.open(filename);
-            fin >> *A;
+            while(!(fin.is_open())){
+                cout << "File not found, try again\n";
+                fin.close();
+                cin >> filename;
+                fin.open(filename);}
+            fin >> *A; cout << "loaded" << endl;
             fin.close();
             delete[] filename;
         }
         if(command=="save"){
-            char *filename = new char[200];
+            char *filename = new char[255];
             cin >> filename;
             ofstream(fout);
             fout.open(filename);
+            while(!(fout.is_open())){
+                fout.close();
+                cout << "File not found, try again\n";
+                cin >> filename;
+                fout.open(filename);}
             fout << *A;
             fout.close();
             delete[] filename;
@@ -63,7 +71,7 @@ int main() {
         }
         if(command=="sort")
         {
-            A=A->mergesort(A);
+            A->mergesort(A);
             cout << "sorted ll" << endl;
             cout << *A;
         }
@@ -73,13 +81,13 @@ int main() {
             cout << "input name, id, size of vectors and vectors"<<endl;
             cin >> name >> id;
 
-            cout << "vector 1" << endl;
+            cout << "input vector 1" << endl;
             cin >> inf_size;
             vector<double> inf(inf_size);
             for (int i = 0; i < inf_size; i++)
                 cin >> inf[i];
 
-            cout << "vector 2" << endl;
+            cout << "input vector 2" << endl;
             cin  >> sup_size;
             vector<double> sup(sup_size);
             for (int i = 0; i < sup_size; i++)
@@ -123,5 +131,5 @@ int main() {
     return 0;
 }
 
-// C:\Users\ultra\CLionProjects\PersonTest\data.txt
+//C:\Users\ultra\CLionProjects\PersonTest\data.txt
 //C:\Users\ultra\CLionProjects\PersonTest\data2.txt
